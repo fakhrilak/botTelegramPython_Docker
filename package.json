@@ -16,6 +16,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dayjs": "^1.10.5",
+    "dotenv": "^16.0.3",
     "exceljs": "^4.2.1",
     "jsontoxml": "^1.0.1",
     "mongoose": "^5.12.13",

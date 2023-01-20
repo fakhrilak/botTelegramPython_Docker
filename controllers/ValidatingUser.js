@@ -1,5 +1,6 @@
 
 const UserConsume = require("../Models/UsersConsume")
+const {ControllersCommand} = require("../controllers/exectCommand")
 const fs = require('fs');
 exports.ValidatingUser=async(bot,msg,users)=>{
     try{
@@ -19,7 +20,7 @@ exports.ValidatingUser=async(bot,msg,users)=>{
         user["status"] = false
         users.push(user)
         writeUSER(users)
-        // bot.sendMessage(msg.chat.id,"Please contact admin"+admin)
+        // return bot.sendMessage(msg.chat.id,"Wellcome to bot parking management system")
         return false
     }catch(err){
         console.log(err)
@@ -44,7 +45,7 @@ const getAdmin=(users)=>{
 const writeUSER=async(users)=>{
     let data = JSON.stringify(users, null, 4);
     console.log(data)
-    fs.writeFileSync('user.json', data,(err) => {
+    fs.writeFileSync('/etc/bottele/user.json', data,(err) => {
         console.log(data)
         if (err) throw err;
         console.log('Data written to file') 
@@ -53,14 +54,17 @@ const writeUSER=async(users)=>{
 
 exports.validatingConsumsingUsers=async(bot,msg,user,command)=>{
     try{
+        console.log("masuk sini ga",command)
         for(let i =0;i<command.length;i++){
-            // console.log(msg.text,command[i].command)
-            if (msg.text == command[i].command){
+            let mess = msg.text.split(" ")
+            if (mess[0]== command[i].command){
                 for(let j = 0 ; j < command[i].acceptedrole.length;j++){
                     if (user.role == command[i].acceptedrole[j]){
-                        return bot.sendMessage(msg.chat.id,"manteeeep")
+                        // return bot.sendMessage(msg.chat.id,"manteeeep")
+                        return ControllersCommand(bot,msg,user,command[i]["command"])
                     }
                 }
+                console.log(" ---------------- INI ")
                 return bot.sendMessage(msg.chat.id,"protected role")
             }
         }

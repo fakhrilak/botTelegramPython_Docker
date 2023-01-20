@@ -5,6 +5,22 @@
     },
     {
         "command" : "/userpending",
-        "acceptedrole" : [1]
+        "acceptedrole" : [1,3]
+    },
+    {
+        "command" : "/approveuser",
+        "acceptedrole" : [1,3]
+    },
+    {
+        "command" : "/infoip",
+        "acceptedrole": [1,3]
+    },
+    {
+        "command" : "/userapprove",
+        "acceptedrole": [1,3]
+    },
+    {
+        "command" : "/deletuser",
+        "acceptedrole": [1]
     }
 ]

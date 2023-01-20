@@ -1,5 +1,5 @@
 // const mongose = require("mongoose")
-// var mongoDB = "mongodb://192.168.10.171:27017/Office";
+// var mongoDB = `mongodb://${process.env.mongodb}/Office`;
 // mongose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 // const schema = mongose.Schema({
 //     firstName : String,

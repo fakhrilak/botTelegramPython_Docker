@@ -1,0 +1,64 @@
+[
+	{
+		"area_name" : "phj",
+        "server_ip" : "192.168.1.5",
+        "domain":"devcenter.safeparkingindonesia.com",
+        "gate": [
+            {
+                "gate_name": "PM PHJ Utama",
+                "ip_raspi":"192.168.1.70",
+                "ip_cam_plat":"192.168.1.23",
+                "ip_cam_wajah":"192.168.1.33"
+            },
+            {
+                "gate_name": "PK PHJ Utama",
+                "ip_raspi":"192.168.1.16",
+                "ip_cam_plat":"192.168.1.24",
+                "ip_cam_wajah":"192.168.1.34"
+            },
+            {
+                "gate_name": "PM Plaza",
+                "ip_raspi":"192.168.1.17",
+                "ip_cam_plat":"192.168.1.??????",
+                "ip_cam_wajah":"192.168.1.??????"
+            },
+            {
+                "gate_name": "PK PHJ Utama",
+                "ip_raspi":"192.168.1.18 atau 38",
+                "ip_cam_plat":"192.168.1.??????",
+                "ip_cam_wajah":"192.168.1.??????"
+            }
+        ]
+	},
+    {
+		"area_name" : "center",
+        "server_ip" : "192.168.1.5",
+        "domain":"devcenter.safeparkingindonesia.com",
+        "gate": [
+            {
+                "gate_name": "PM MOTOR 1",
+                "ip_raspi":"192.168.1.165",
+                "ip_cam_plat":"192.168.1.230",
+                "ip_cam_wajah":"192.168.1.231"
+            },
+            {
+                "gate_name": "PM MOTOR 2",
+                "ip_raspi":"192.168.1.167",
+                "ip_cam_plat":"192.168.1.234",
+                "ip_cam_wajah":"192.168.1.235"
+            },
+            {
+                "gate_name": "PK MOTOR 1",
+                "ip_raspi":"192.168.1.166",
+                "ip_cam_plat":"192.168.1.232",
+                "ip_cam_wajah":"192.168.1.233"
+            },
+            {
+                "gate_name": "PK MOTOR 2",
+                "ip_raspi":"192.168.1.168",
+                "ip_cam_plat":"192.168.1.236",
+                "ip_cam_wajah":"192.168.1.237"
+            }
+        ]
+	}	
+]
