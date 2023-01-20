@@ -1,113 +1,146 @@
 
 const UserConsume = require("../Models/UsersConsume")
-
-exports.ValidatingUser=async(bot,msg)=>{
-
-    const first_name = msg.from.first_name
-    const last_name = msg.from.last_name
-    const Chat_Id = msg.chat.id
-    console.log(msg.from)
-    const panjangNama = first_name + last_name
-    if(panjangNama< 6){
-        bot.sendMessage(Chat_Id, "Please, change your user name min 6 karakter");
-        return false
-    }else{
-        const CariUser = await UserConsume.findOne({idFromBot:msg.chat.id})
-        if(!CariUser){
-            const data = {
-                firstName : first_name,
-                lastName : last_name,
-                idFromBot : Chat_Id,
-                status:false
-            }
-            await UserConsume.create(data)
-            bot.sendMessage(Chat_Id,"Please Contact @kevian53 to approve your account")
-            return false
-        }else{
-            if (CariUser.status == false){
-                bot.sendMessage(Chat_Id,"Please Contact @kevian53 to approve your akun, because your status is blocked")
+const fs = require('fs');
+exports.ValidatingUser=async(bot,msg,users)=>{
+    try{
+        for(let i =0;i<users.length;i++){
+            if (users[i].id == msg.from.id && users[i].status == false){
+                let admin = getAdmin(users)
+                bot.sendMessage(msg.chat.id,"Please contact admin"+admin+ ", akun anda belom terdaftar di bot ini")
                 return false
-            }else{
-                console.log("hello")
-                return true
+            }else if (users[i].id == msg.from.id && users[i].status == true){
+                // bot.sendMessage(msg.chat.id,"oke anda terdaftar")
+                return users[i]
             }
         }
-             
+        let admin = getAdmin(users)
+        let user = msg.from
+        user["type"] = 3
+        user["status"] = false
+        users.push(user)
+        writeUSER(users)
+        // bot.sendMessage(msg.chat.id,"Please contact admin"+admin)
+        return false
+    }catch(err){
+        console.log(err)
+        return bot.sendMessage(892248157,err)
     }
 }
 
-exports.ChangeStatus=async(bot,dataArray)=>{
+const getAdmin=(users)=>{
     try{
-        const CariPending = await UserConsume.find({status:false})
-        if(CariPending[dataArray-1].status == true){
-            bot.sendMessage(1314835139,"Users has been accepted before")
-        }else{
+        let text = ""
+        for(let i = 0;i<users.length;i++){
+            if(users[i].type == 1){
+                text+=", @"+users[i].username
+            }
+        }
+        return text
+    }catch(err){
+        return bot.sendMessage(892248157,err)
+    }
+}
+
+const writeUSER=async(users)=>{
+    let data = JSON.stringify(users, null, 4);
+    console.log(data)
+    fs.writeFileSync('user.json', data,(err) => {
+        console.log(data)
+        if (err) throw err;
+        console.log('Data written to file') 
+    })
+}
+
+exports.validatingConsumsingUsers=async(bot,msg,user,command)=>{
+    try{
+        for(let i =0;i<command.length;i++){
+            // console.log(msg.text,command[i].command)
+            if (msg.text == command[i].command){
+                for(let j = 0 ; j < command[i].acceptedrole.length;j++){
+                    if (user.role == command[i].acceptedrole[j]){
+                        return bot.sendMessage(msg.chat.id,"manteeeep")
+                    }
+                }
+                return bot.sendMessage(msg.chat.id,"protected role")
+            }
+        }
+        return bot.sendMessage(msg.chat.id,"Command not found")
+    }catch(err){
+        return bot.sendMessage(msg.chat.id,err.toString())
+    }
+}
+// exports.ChangeStatus=async(bot,dataArray)=>{
+//     try{
+//         const CariPending = await UserConsume.find({status:false})
+//         if(CariPending[dataArray-1].status == true){
+//             bot.sendMessage(1314835139,"Users has been accepted before")
+//         }else{
             
-            await UserConsume.updateOne( 
-                { idFromBot : CariPending[dataArray-1].idFromBot },
-                { $set: {status:true}},
-                { upsert: true }
-            )
-            const validating = await UserConsume.findOne({idFromBot:CariPending[dataArray-1].idFromBot})
-            bot.sendMessage(1314835139,`Accepted User ${validating.firstName} ${validating.lastName} status is ${validating.status}`)
-            bot.sendMessage(parseInt(CariPending[dataArray-1].idFromBot),
-            "Your Account Accepted, ketik /start untuk mendapatkan info penggunaan")
-        }
+//             await UserConsume.updateOne( 
+//                 { idFromBot : CariPending[dataArray-1].idFromBot },
+//                 { $set: {status:true}},
+//                 { upsert: true }
+//             )
+//             const validating = await UserConsume.findOne({idFromBot:CariPending[dataArray-1].idFromBot})
+//             bot.sendMessage(1314835139,`Accepted User ${validating.firstName} ${validating.lastName} status is ${validating.status}`)
+//             bot.sendMessage(parseInt(CariPending[dataArray-1].idFromBot),
+//             "Your Account Accepted, ketik /start untuk mendapatkan info penggunaan")
+//         }
         
+//     }catch(err){
+//         await bot.sendMessage(1314835139,err.message)
+//     }
+    
+// }
+
+exports.UserPending=async(bot,msg,users)=>{
+    
+    try{
+        for(let i = 0;i<users.length;i++){
+            console.log(users[i])
+        }
+        await bot.sendMessage(892248157,users)
     }catch(err){
-        await bot.sendMessage(1314835139,err.message)
+        // await bot.sendMessage(1314835139,err.message)
+        console.log(err)
     }
     
 }
 
-exports.UserPending=async(bot)=>{
-    const CariUser = await UserConsume.find({status:false})
-    try{
-        let dataSend = ""
-        for (let A = CariUser.length-1; A > -1;A--){
-            dataSend += (A+1) + ". " + CariUser[A].firstName+" "+CariUser[A].lastName + "\n"
-        }
-        await bot.sendMessage(1314835139,dataSend)
-    }catch(err){
-        await bot.sendMessage(1314835139,err.message)
-    }
-    
-}
+// exports.UserAccept=async(bot)=>{
+//     const CariUser = await UserConsume.find({status:true})
+//     try{
+//         let dataSend = ""
+//         for (let A = CariUser.length-1; A > -1;A--){
+//             dataSend += (A+1) + ". " + CariUser[A].firstName+" "+CariUser[A].lastName + "\n"
+//         }
+//         await bot.sendMessage(1314835139,dataSend)
+//     }catch(err){
+//         await bot.sendMessage(1314835139,err.message)
+//     }
+// }
 
-exports.UserAccept=async(bot)=>{
-    const CariUser = await UserConsume.find({status:true})
-    try{
-        let dataSend = ""
-        for (let A = CariUser.length-1; A > -1;A--){
-            dataSend += (A+1) + ". " + CariUser[A].firstName+" "+CariUser[A].lastName + "\n"
-        }
-        await bot.sendMessage(1314835139,dataSend)
-    }catch(err){
-        await bot.sendMessage(1314835139,err.message)
-    }
-}
-
-exports.ChangeStatusAccepted=async(bot,dataArray)=>{
-    try{
-        const CariPending = await UserConsume.find({status:true})
-        console.log(CariPending[dataArray-1])
-        if(CariPending[dataArray-1].status == false){
-            bot.sendMessage(1314835139,"Users has been Blocked before")
-        }else{
+// exports.ChangeStatusAccepted=async(bot,dataArray)=>{
+//     try{
+//         const CariPending = await UserConsume.find({status:true})
+//         console.log(CariPending[dataArray-1])
+//         if(CariPending[dataArray-1].status == false){
+//             bot.sendMessage(1314835139,"Users has been Blocked before")
+//         }else{
             
-            await UserConsume.updateOne( 
-                { idFromBot : CariPending[dataArray-1].idFromBot },
-                { $set: {status:false}},
-                { upsert: true }
-            )
-            const validating = await UserConsume.findOne({idFromBot:CariPending[dataArray-1].idFromBot})
-            bot.sendMessage(1314835139,`Blocked User ${validating.firstName} ${validating.lastName} status is ${validating.status}`)
-            bot.sendMessage(parseInt(CariPending[dataArray-1].idFromBot),
-            "Your Account Blocked, from bot. Please Contact @kevian53")
-        }
+//             await UserConsume.updateOne( 
+//                 { idFromBot : CariPending[dataArray-1].idFromBot },
+//                 { $set: {status:false}},
+//                 { upsert: true }
+//             )
+//             const validating = await UserConsume.findOne({idFromBot:CariPending[dataArray-1].idFromBot})
+//             bot.sendMessage(1314835139,`Blocked User ${validating.firstName} ${validating.lastName} status is ${validating.status}`)
+//             bot.sendMessage(parseInt(CariPending[dataArray-1].idFromBot),
+//             "Your Account Blocked, from bot. Please Contact @kevian53")
+//         }
         
-    }catch(err){
-        await bot.sendMessage(1314835139,err.message)
-    }
+//     }catch(err){
+//         await bot.sendMessage(1314835139,err.message)
+//     }
     
-}
+// }

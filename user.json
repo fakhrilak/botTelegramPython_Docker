@@ -1,0 +1,57 @@
+[
+    {
+        "id": 892248156,
+        "is_bot": false,
+        "first_name": "Fakhril",
+        "last_name": "AK",
+        "username": "fakhrilak",
+        "language_code": "en",
+        "role": 1,
+        "status": true
+    },
+    {
+        "id": 892248157,
+        "is_bot": false,
+        "first_name": "Fakhril",
+        "last_name": "AK",
+        "username": "fakhrilak",
+        "language_code": "en",
+        "role": 1,
+        "status": true
+    },
+    {
+        "id": 1412270859,
+        "is_bot": false,
+        "first_name": "Ricky",
+        "last_name": "Oktavianus",
+        "username": "rickyoktavianus",
+        "type": 3,
+        "status": false
+    },
+    {
+        "id": 1088941415,
+        "is_bot": false,
+        "first_name": "Sahril",
+        "last_name": "`A",
+        "language_code": "id",
+        "type": 3,
+        "status": false
+    },
+    {
+        "id": 1818898775,
+        "is_bot": false,
+        "first_name": "Ehsan",
+        "language_code": "en",
+        "type": 3,
+        "status": false
+    },
+    {
+        "id": 885068316,
+        "is_bot": false,
+        "first_name": "Agum",
+        "last_name": "Aditama",
+        "username": "AgumTama",
+        "type": 3,
+        "status": false
+    }
+]

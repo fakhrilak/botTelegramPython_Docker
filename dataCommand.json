@@ -1,0 +1,10 @@
+[
+    {
+        "command" : "/infosetlement",
+        "acceptedrole" : [1,3]
+    },
+    {
+        "command" : "/userpending",
+        "acceptedrole" : [1]
+    }
+]
