@@ -22,5 +22,9 @@
     {
         "command" : "/deletuser",
         "acceptedrole": [1]
+    },
+    {
+        "command" : "/info",
+        "acceptedrole": [1,3]
     }
 ]

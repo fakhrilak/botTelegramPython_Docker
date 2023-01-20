@@ -70,6 +70,9 @@ const ApproveUser=async(bot,msg,user,command)=>{
         let falseUser = []
         let count = 0
         let splited = msg.text.split(" ")
+        if(splited.length <=1){
+            return bot.sendMessage(msg.chat.id,"Please insert parameter from command /userpending , example /approveuser 0")
+        }
         for(let i=0;i<users.length;i++){
             if(users[i].status == false){
                 falseUser.push(users[i])
@@ -101,6 +104,9 @@ const DeletUser=async(bot,msg,user,command)=>{
         let falseUser = []
         let count = 0
         let splited = msg.text.split(" ")
+        if(splited.length <=1){
+            return bot.sendMessage(msg.chat.id,"Please insert parameter from command /userapprove , example /deletuser 0")
+        }
         for(let i=0;i<users.length;i++){
             if(users[i].status == true){
                 falseUser.push(users[i])
@@ -129,6 +135,27 @@ const DeletUser=async(bot,msg,user,command)=>{
         return bot.sendMessage(msg.chat.id,err.toString())
     }
 }
+const INFO=async(bot,msg,user,command)=>{
+    try{
+        let ket = "HELLO IAM SAFEPARKING ROBOT, USE ME : \
+        \n\n \
+        /userpending \
+        \n        command ini digunakan untuk mengetahui user yang statusnya false \n\n\
+        /approveuser \
+        \n        command ini memiliki parameter, parameter diambil dari angka hasil /userpending\n\n\
+        /infoip \
+        \n         - command ini tanpa menggunakan param akan memberikan hasil fulljson seluruh area safeparking\n\
+        \n         - command ini dengan nama lokasi akan memberikan info semua gate pada area tersebut\n\n\
+        /userapprove \
+        \n         command ini digunakan untuk melihat user dengan status true\n\n\
+        /deletuser \
+        \n         command ini digunakan untuk mengganti status user true menjadi false, dengan ada tambahan parameter angka /deletuser 0 \n\n\
+        "
+        return bot.sendMessage(msg.chat.id,ket)
+    }catch(err){
+        return bot.sendMessage(msg.chat.id,err.toString())
+    }
+}
 const mapping = [
     {
         "route" : "/userpending",
@@ -149,6 +176,10 @@ const mapping = [
     {
         "route" : "/deletuser",
         "func"  : DeletUser
+    },
+    {
+        "route" : "/info",
+        "func"  : INFO 
     }
 ]
 exports.ControllersCommand=async(bot,msg,user,command)=>{
